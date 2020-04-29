@@ -14,6 +14,7 @@ AMagicBox::AMagicBox()
 void AMagicBox::Notified(Subject* Notifier)
 {
 	UE_LOG(LogTemp, Warning, TEXT("notified"));
+	Destroy();
 }
 
 // Called when the game starts or when spawned

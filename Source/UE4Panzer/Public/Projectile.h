@@ -34,6 +34,8 @@ public:
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
 	void NotifyObservers() override;
+
+	float LaunchSpeed = 10000;
 };
 
 //extern std::vector<Observer*> PotentialObservers;
