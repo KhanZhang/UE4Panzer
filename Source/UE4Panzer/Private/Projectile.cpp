@@ -6,8 +6,17 @@
 #include "PGI.h"
 #include "Components/PrimitiveComponent.h"
 #include "GameFramework/Actor.h"
+#include "math.h"
 
-// Sets default values
+//make direction vector
+void AProjectile::Unify(FVector& v)
+{
+	float length = sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+	v.X /= length;
+	v.Y /= length;
+	v.Z /= length;
+}
+
 AProjectile::AProjectile()
 {
 	InitialLifeSpan = 555.0f;
@@ -47,12 +56,13 @@ void AProjectile::BeginPlay()
 	//UE_LOG(LogTemp, Warning, TEXT("hit"));
 }
 
-void AProjectile::LaunchProjectile(float Speed)
+void AProjectile::LaunchProjectile(float Speed, FVector Direction)
 {
-	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
-	//UE_LOG(LogTemp, Warning, TEXT("initial %s"), *FVector::ForwardVector.ToString());
-	ProjectileMovement->Activate();
-	//CollisionMesh->AddImpulse(FVector::ForwardVector * Speed * CollisionMesh->GetMass());
+	//ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
+	//ProjectileMovement->Activate();
+	Unify(Direction);
+	UE_LOG(LogTemp, Warning, TEXT("initial %s"), *Direction.ToString());
+	CollisionMesh->AddImpulse(Direction * LaunchSpeed);
 	//CollisionMesh->SetPhysicsLinearVelocity(FVector(50.f, 0, 0));
 }
 
@@ -64,7 +74,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 
 		//ProjectileMovement->Activate();
 		UE_LOG(LogTemp, Warning, TEXT("normal %s, forward %s"), *NormalImpulse.ToString(), *FVector::ForwardVector.ToString());
-		NotifyObservers();
+		//NotifyObservers();
 	}
 	
 }

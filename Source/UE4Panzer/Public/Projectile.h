@@ -15,6 +15,9 @@ class UE4PANZER_API AProjectile : public AActor, public Subject
 {
 	GENERATED_BODY()
 
+private:
+	void Unify(FVector &v);
+
 public:
 	// Sets default values for this actor's properties
 	AProjectile();
@@ -28,7 +31,7 @@ public:
 
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 
-	void LaunchProjectile(float Speed);
+	void LaunchProjectile(float Speed, FVector Direction);
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent* CollisionMesh = nullptr;

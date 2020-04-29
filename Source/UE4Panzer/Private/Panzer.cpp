@@ -2,6 +2,7 @@
 
 #include "PanzerBarrel.h"
 #include "Projectile.h"
+#include "Turrent.h"
 #include "Panzer.h"
 
 // Sets default values
@@ -37,6 +38,7 @@ void APanzer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void APanzer::AimAt(FVector HitLocation)
 {
+	//UE_LOG(LogTemp, Warning, TEXT("ss"))
 	PanzerAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
@@ -49,6 +51,7 @@ void APanzer::SetBarrelReference(UPanzerBarrel* BarrelToSet)
 
 void APanzer::SetTurrentReference(UTurrent* TurrentToSet)
 {
+	Turrent = TurrentToSet;
 	PanzerAimingComponent->SetTurrentReference(TurrentToSet);
 }
 
@@ -66,7 +69,9 @@ void APanzer::Fire()
 				Barrel->GetSocketLocation(FName("Projectile")),
 				Barrel->GetSocketRotation(FName("Projectile"))
 			);
-			Projectile->LaunchProjectile(LaunchSpeed);
+			FVector Direction = Barrel->GetSocketLocation(FName("Projectile")) -
+				Turrent->GetSocketLocation(FName("barrel"));
+			Projectile->LaunchProjectile(LaunchSpeed, Direction);
 		}/*
 		else {
 			auto Ballshell = GetWorld()->SpawnActor<ABallShell>(

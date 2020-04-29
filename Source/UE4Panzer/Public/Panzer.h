@@ -8,9 +8,9 @@
 #include "Panzer.generated.h"
 
 class AProjectile;
+class UTurrent;
 
 UCLASS()
-
 class UE4PANZER_API APanzer : public APawn
 {
 	GENERATED_BODY()
@@ -20,6 +20,7 @@ private :
 	APanzer();
 
 	UPanzerBarrel* Barrel = nullptr;
+	UTurrent* Turrent = nullptr;
 
 	bool fireball = true;
 
