@@ -3,12 +3,14 @@
 #include "Components/SphereComponent.h"
 #include "Observer.h"
 #include "Projectile.h"
+#include "Panzer.h"
 #include "PGI.h"
 #include "Components/PrimitiveComponent.h"
 #include "GameFramework/Actor.h"
+#include "MagicBox.h"
 #include "math.h"
 
-//make direction vector
+
 void AProjectile::Unify(FVector& v)
 {
 	float length = sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
@@ -24,7 +26,9 @@ AProjectile::AProjectile()
 	PrimaryActorTick.bCanEverTick = false;
 
 	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
+	UE_LOG(LogTemp, Warning, TEXT("create collision mesh"));
 	SetRootComponent(CollisionMesh);
+
 	CollisionMesh->SetNotifyRigidBodyCollision(true);
 	CollisionMesh->SetVisibility(true);
 
@@ -56,12 +60,12 @@ void AProjectile::BeginPlay()
 	//UE_LOG(LogTemp, Warning, TEXT("hit"));
 }
 
-void AProjectile::LaunchProjectile(float Speed, FVector Direction)
+void AProjectile::LaunchProjectile(FVector Direction)
 {
 	//ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	//ProjectileMovement->Activate();
 	Unify(Direction);
-	UE_LOG(LogTemp, Warning, TEXT("initial %s"), *Direction.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("initial %s"), *Direction.ToString());
 	CollisionMesh->AddImpulse(Direction * LaunchSpeed);
 	//CollisionMesh->SetPhysicsLinearVelocity(FVector(50.f, 0, 0));
 }
@@ -71,10 +75,30 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
 	{
 		//ProjectileMovement->SetVelocityInLocalSpace(NormalImpulse - FVector::ForwardVector * LaunchSpeed);
-
-		//ProjectileMovement->Activate();
-		UE_LOG(LogTemp, Warning, TEXT("normal %s, forward %s"), *NormalImpulse.ToString(), *FVector::ForwardVector.ToString());
-		//NotifyObservers();
+		try {
+			
+			if (APanzer* Panzer = Cast<APanzer>(OtherActor)) {
+				return;
+				FVector BarrelDirection = Panzer->GetBarrelDirection();
+				Unify(BarrelDirection);
+				FVector CurrentDirection = GetVelocity();
+				LaunchProjectile(-CurrentDirection);
+				Unify(CurrentDirection);
+				LaunchProjectile(BarrelDirection + BarrelDirection - CurrentDirection);
+				UE_LOG(LogTemp, Warning, TEXT("%s"), *GetVelocity().ToString());
+			}
+			else if (AMagicBox* Box = Cast<AMagicBox>(OtherActor)){
+				Box->GetHit();
+			}
+			//Subject* S = Cast<Subject>(OtherActor);
+			//UE_LOG(LogTemp, Warning, TEXT("%d"), S->ID);
+			//Panzer->Fire();
+			//OtherActor->GetClass();
+		}
+		catch (...) {
+		    OtherActor->Destroy();
+		    UE_LOG(LogTemp, Warning, TEXT("normal %s, forward %s"), *NormalImpulse.ToString(), *FVector::ForwardVector.ToString());
+		}
 	}
 	
 }

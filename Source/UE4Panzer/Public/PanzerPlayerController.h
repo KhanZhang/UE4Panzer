@@ -41,6 +41,9 @@ public:
     bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 
     bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
+
+    bool Aiming = false;
+    void SetAiming();
     /*
 public:
     std::vector<Observer*> PotentialObservers;*/

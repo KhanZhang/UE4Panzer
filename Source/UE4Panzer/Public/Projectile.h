@@ -7,6 +7,7 @@
 #include "Subject.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Components/SphereComponent.h"
 #include "Projectile.generated.h"
 
 
@@ -31,14 +32,17 @@ public:
 
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 
-	void LaunchProjectile(float Speed, FVector Direction);
+	void LaunchProjectile(FVector Direction);
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
+
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
 	void NotifyObservers() override;
 
 	float LaunchSpeed = 10000;
+
+	//void Tick(float DeltaTime) override;
 };
 
 //extern std::vector<Observer*> PotentialObservers;

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Observer.h"
+#include "Subject.h"
 #include <vector>
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -10,14 +11,14 @@
 #include "MagicBox.generated.h"
 
 UCLASS()
-class UE4PANZER_API AMagicBox : public AActor, public Observer
+class UE4PANZER_API AMagicBox : public AActor, public Observer, public Subject
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
 	AMagicBox();
-	void Notified(Subject* Notifier) override;
+	virtual void Notified(Subject* Notifier) override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,7 +27,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
+	virtual void GetHit();
 	//std::vector<Observer*> PotentialObservers;// = Cast<UPGI>(GetGameInstance())->POlist;
 };
 

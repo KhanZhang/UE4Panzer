@@ -9,6 +9,7 @@
 
 class AProjectile;
 class UTurrent;
+class UPanzerTrack;
 
 UCLASS()
 class UE4PANZER_API APanzer : public APawn
@@ -21,6 +22,8 @@ private :
 
 	UPanzerBarrel* Barrel = nullptr;
 	UTurrent* Turrent = nullptr;
+	//UPanzerTrack* RTrack = nullptr;
+	//UPanzerTrack* LTrack = nullptr;
 
 	bool fireball = true;
 
@@ -46,16 +49,26 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetTurrentReference(UTurrent* TurrentToSet);
 
+	//UFUNCTION(BlueprintCallable, Category = Setup)
+	//	void SetRTrackReference(UPanzerTrack* TrackToSet);	
+	//UFUNCTION(BlueprintCallable, Category = Setup)
+	//	void SetLTrackReference(UPanzerTrack* TrackToSet);
+
 	UPROPERTY(EditAnywhere, Category = Firing)
-		float LaunchSpeed = 10000;
+		float LaunchSpeed = 10000; 
 
 	UFUNCTION(BlueprintCallable, Category = Firing)
 		void Fire();
 
 	UPROPERTY(EditAnywhere, Category = Setup)
-		TSubclassOf<AProjectile> ProjectileBlueprint;
+		TSubclassOf<AProjectile> ProjectileBlueprint;	
+
+	//UFUNCTION(BlueprintCallable, Category = Firing)
+		//void SetRealMoving(bool Real);
 	/*UPROPERTY(EditAnywhere, Category = Setup)
 		TSubclassOf<ABallShell> BallShellBlueprint;*/
+
+	FVector GetBarrelDirection() const;
 
 	float ReloadTime = 3;
 

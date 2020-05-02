@@ -17,6 +17,7 @@ private:
 protected:
 	std::vector<Observer*> ObserverList;
 public:
+	int ID = 0;
 	Subject();
 	~Subject();
 };

@@ -2,11 +2,12 @@
 
 #include "UE4Panzer/UE4Panzer.h"
 #include "PanzerPlayerController.h"
+#include "Components/InputComponent.h"
 
 void APanzerPlayerController::Tick(float Deltatime)
 {
 	Super::Tick(Deltatime);
-	AimTowardsCrosshair();
+	if(Aiming) AimTowardsCrosshair();
 }
 
 
@@ -14,8 +15,22 @@ APanzer* APanzerPlayerController::GetControlledPanzer() const {
 	return Cast<APanzer>(GetPawn());
 }
 
+void APanzerPlayerController::SetAiming()
+{
+	if (Aiming) {
+		Aiming = false;
+	}
+	else {
+		Aiming = true;
+	}
+}
+
 void APanzerPlayerController::BeginPlay() {
 	Super::BeginPlay();
+	//InputComponent = FindComponentByClass<UInputComponent>();
+
+	InputComponent->BindAction("Aim", IE_Pressed, this, &APanzerPlayerController::SetAiming);
+
 	auto Controlledpanzer = GetControlledPanzer();
 	if (!Controlledpanzer) {
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController not possessing a tank"));

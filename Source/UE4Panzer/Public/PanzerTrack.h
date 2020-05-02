@@ -13,6 +13,9 @@ UCLASS(meta = (BlueprintSpawnableComponent))
 class UE4PANZER_API UPanzerTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
+
+private:
+	bool RealMoving = true;
 public:
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetThrottle(float Throttle);
@@ -20,5 +23,5 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float TrackMaxDrivingForce = 37400000.0;
 
-	
+	//void SetRealMoving(bool Real = false);
 };

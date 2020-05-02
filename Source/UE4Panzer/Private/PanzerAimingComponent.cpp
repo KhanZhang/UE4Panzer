@@ -96,7 +96,7 @@ void UPanzerAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		//auto TankName = GetOwner()->GetName();
 		//UE_LOG(LogTemp, Warning, TEXT("%s Firing at %s"), *TankName, *AimDirection.ToString());
-		MoveBarrelTowards(AimDirection);
+		//MoveBarrelTowards(AimDirection);
 		MoveTurrentTowards(AimDirection);
 	}
 }

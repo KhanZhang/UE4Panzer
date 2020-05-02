@@ -31,3 +31,8 @@ void AMagicBox::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+
+void AMagicBox::GetHit()
+{
+	Destroy();
+}

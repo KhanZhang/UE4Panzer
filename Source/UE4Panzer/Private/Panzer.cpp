@@ -3,6 +3,7 @@
 #include "PanzerBarrel.h"
 #include "Projectile.h"
 #include "Turrent.h"
+#include "PanzerTrack.h"
 #include "Panzer.h"
 
 // Sets default values
@@ -54,6 +55,15 @@ void APanzer::SetTurrentReference(UTurrent* TurrentToSet)
 	Turrent = TurrentToSet;
 	PanzerAimingComponent->SetTurrentReference(TurrentToSet);
 }
+/*
+void APanzer::SetRTrackReference(UPanzerTrack* TrackToSet)
+{
+	RTrack = TrackToSet;
+}
+void APanzer::SetLTrackReference(UPanzerTrack* TrackToSet)
+{
+	LTrack = TrackToSet;
+}*/
 
 void APanzer::Fire()
 {
@@ -69,9 +79,8 @@ void APanzer::Fire()
 				Barrel->GetSocketLocation(FName("Projectile")),
 				Barrel->GetSocketRotation(FName("Projectile"))
 			);
-			FVector Direction = Barrel->GetSocketLocation(FName("Projectile")) -
-				Turrent->GetSocketLocation(FName("barrel"));
-			Projectile->LaunchProjectile(LaunchSpeed, Direction);
+			FVector Direction = GetBarrelDirection();
+			Projectile->LaunchProjectile(Direction);
 		}/*
 		else {
 			auto Ballshell = GetWorld()->SpawnActor<ABallShell>(
@@ -84,6 +93,22 @@ void APanzer::Fire()
 		
 
 	}
+}
+/*
+void APanzer::SetRealMoving(bool Real)
+{
+	if (LTrack) {
+		LTrack->SetRealMoving(Real);
+	}
+	if (RTrack) {
+		RTrack->SetRealMoving(Real);
+	}
+}*/
+
+FVector APanzer::GetBarrelDirection() const
+{
+	return Barrel->GetSocketLocation(FName("Projectile")) - 
+		Turrent->GetSocketLocation(FName("barrel"));
 }
 
 
