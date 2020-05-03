@@ -32,7 +32,7 @@ public:
 
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 
-	void LaunchProjectile(FVector Direction);
+	void LaunchProjectile(FVector Direction, bool ReLaunch = false);
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 

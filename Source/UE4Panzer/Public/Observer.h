@@ -13,7 +13,7 @@ class UE4PANZER_API Observer
 {
 public:
 	Observer();
-	~Observer();
+	virtual ~Observer();
 	virtual void Notified(Subject* Notifier);
 };
 

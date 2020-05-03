@@ -19,5 +19,5 @@ protected:
 public:
 	int ID = 0;
 	Subject();
-	~Subject();
+	virtual ~Subject();
 };

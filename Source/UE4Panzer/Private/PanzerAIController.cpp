@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "UE4Panzer/UE4Panzer.h"
 #include "PanzerAIController.h"
+#include "UE4Panzer/UE4Panzer.h"
 
 void APanzerAIController::Tick(float Deltatime)
 {

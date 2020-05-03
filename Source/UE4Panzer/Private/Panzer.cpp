@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Panzer.h"
 #include "PanzerBarrel.h"
 #include "Projectile.h"
 #include "Turrent.h"
 #include "PanzerTrack.h"
-#include "Panzer.h"
 
 // Sets default values
 APanzer::APanzer()

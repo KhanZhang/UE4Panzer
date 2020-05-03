@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "UE4PanzerClasses.h"
 #include "PanzerBarrel.h"
+#include "UE4PanzerClasses.h"
 
 void UPanzerBarrel::Elevate(float RelativeSpeed)
 {

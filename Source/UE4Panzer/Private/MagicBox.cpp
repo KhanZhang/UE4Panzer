@@ -34,5 +34,10 @@ void AMagicBox::Tick(float DeltaTime)
 
 void AMagicBox::GetHit()
 {
-	Destroy();
+	if (Hpoint) {
+		Hpoint--;
+	}
+	else {
+		Destroy();
+	}
 }

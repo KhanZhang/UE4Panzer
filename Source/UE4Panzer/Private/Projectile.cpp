@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Projectile.h"
 #include "Components/SphereComponent.h"
 #include "Observer.h"
-#include "Projectile.h"
 #include "Panzer.h"
 #include "PGI.h"
 #include "Components/PrimitiveComponent.h"
@@ -60,11 +60,12 @@ void AProjectile::BeginPlay()
 	//UE_LOG(LogTemp, Warning, TEXT("hit"));
 }
 
-void AProjectile::LaunchProjectile(FVector Direction)
+void AProjectile::LaunchProjectile(FVector Direction, bool ReLaunch)
 {
 	//ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	//ProjectileMovement->Activate();
 	Unify(Direction);
+	if (ReLaunch) Direction *= 0.3;
 	//UE_LOG(LogTemp, Warning, TEXT("initial %s"), *Direction.ToString());
 	CollisionMesh->AddImpulse(Direction * LaunchSpeed);
 	//CollisionMesh->SetPhysicsLinearVelocity(FVector(50.f, 0, 0));
@@ -75,16 +76,16 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
 	{
 		//ProjectileMovement->SetVelocityInLocalSpace(NormalImpulse - FVector::ForwardVector * LaunchSpeed);
-		try {
+		//try {
 			
 			if (APanzer* Panzer = Cast<APanzer>(OtherActor)) {
-				return;
-				FVector BarrelDirection = Panzer->GetBarrelDirection();
+				/*
+				FVector PanzerVelocity = Panzer->GetBarrelDirection();
 				Unify(BarrelDirection);
 				FVector CurrentDirection = GetVelocity();
-				LaunchProjectile(-CurrentDirection);
 				Unify(CurrentDirection);
-				LaunchProjectile(BarrelDirection + BarrelDirection - CurrentDirection);
+				FVector TargetDirection = Panzer->GetVelocity() + GetVelocity();*/
+				LaunchProjectile(Panzer->GetVelocity() + GetVelocity(), true);
 				UE_LOG(LogTemp, Warning, TEXT("%s"), *GetVelocity().ToString());
 			}
 			else if (AMagicBox* Box = Cast<AMagicBox>(OtherActor)){
@@ -94,11 +95,11 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 			//UE_LOG(LogTemp, Warning, TEXT("%d"), S->ID);
 			//Panzer->Fire();
 			//OtherActor->GetClass();
-		}
-		catch (...) {
-		    OtherActor->Destroy();
-		    UE_LOG(LogTemp, Warning, TEXT("normal %s, forward %s"), *NormalImpulse.ToString(), *FVector::ForwardVector.ToString());
-		}
+		//}
+		//catch (...) {
+		//    OtherActor->Destroy();
+		//    UE_LOG(LogTemp, Warning, TEXT("normal %s, forward %s"), *NormalImpulse.ToString(), *FVector::ForwardVector.ToString());
+		//}
 	}
 	
 }
